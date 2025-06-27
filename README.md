@@ -56,9 +56,9 @@ It reviews all services required for each use case requested to check.
 
 ## How to use
 ### Executable jar
-An executable jar file is provided on release to this GitHub repo [here]()
+An executable jar is available as an asset on all releases to this repo [here](https://github.com/plantbreeding/use-caseinator/releases)
 
-Once you have downloaded it, run:
+Once you have downloaded the jar from the latest release, run:
 `java  -jar <nameOfLatestJar.jar> --base-url "<url>" --brapp-name "<app name>" --use-case "<use case name>"`
 
 This will either return a true or false, provided the base url is valid, and the app name and use case name of the app is loaded

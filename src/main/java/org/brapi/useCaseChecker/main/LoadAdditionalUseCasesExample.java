@@ -8,7 +8,7 @@ import org.brapi.useCaseChecker.model.useCases.UseCase;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoadAdditionalUseCasesExample {
+class LoadAdditionalUseCasesExample {
     public static void main(String[] args) {
 
         UseCaseCheckerFactory useCaseCheckerFactory = UseCaseCheckerFactory.getInstance();
