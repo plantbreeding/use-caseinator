@@ -12,7 +12,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com//use-caseinator</url>
+            <url>https://maven.pkg.github.com/plantbreeding/use-caseinator</url>
         </repository>
     </distributionManagement>
 
