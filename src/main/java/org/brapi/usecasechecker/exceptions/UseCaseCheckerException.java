@@ -1,4 +1,4 @@
-package org.brapi.useCaseChecker.exceptions;
+package org.brapi.usecasechecker.exceptions;
 
 public class UseCaseCheckerException extends Exception {
     public UseCaseCheckerException(String message) {

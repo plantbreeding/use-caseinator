@@ -1,9 +1,9 @@
-package org.brapi.useCaseChecker.main;
+package org.brapi.usecasechecker.main;
 
-import org.brapi.useCaseChecker.UseCaseCheckerFactory;
-import org.brapi.useCaseChecker.model.useCases.App;
-import org.brapi.useCaseChecker.model.useCases.ServiceRequired;
-import org.brapi.useCaseChecker.model.useCases.UseCase;
+import org.brapi.usecasechecker.UseCaseCheckerFactory;
+import org.brapi.usecasechecker.model.useCases.App;
+import org.brapi.usecasechecker.model.useCases.ServiceRequired;
+import org.brapi.usecasechecker.model.useCases.UseCase;
 
 import java.util.Arrays;
 import java.util.List;

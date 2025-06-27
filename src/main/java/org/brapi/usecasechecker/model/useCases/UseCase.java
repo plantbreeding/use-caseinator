@@ -1,6 +1,6 @@
-package org.brapi.useCaseChecker.model.useCases;
+package org.brapi.usecasechecker.model.useCases;
 
-import org.brapi.useCaseChecker.exceptions.UseCaseBuilderException;
+import org.brapi.usecasechecker.exceptions.UseCaseBuilderException;
 
 import java.util.List;
 

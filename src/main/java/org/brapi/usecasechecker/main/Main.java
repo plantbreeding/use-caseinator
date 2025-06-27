@@ -1,8 +1,8 @@
-package org.brapi.useCaseChecker.main;
+package org.brapi.usecasechecker.main;
 
-import org.brapi.useCaseChecker.UseCaseChecker;
-import org.brapi.useCaseChecker.UseCaseCheckerFactory;
-import org.brapi.useCaseChecker.exceptions.UseCaseCheckerException;
+import org.brapi.usecasechecker.UseCaseChecker;
+import org.brapi.usecasechecker.UseCaseCheckerFactory;
+import org.brapi.usecasechecker.exceptions.UseCaseCheckerException;
 
 public class Main {
     public static void main(String[] args) {

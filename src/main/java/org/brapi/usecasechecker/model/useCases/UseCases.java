@@ -1,4 +1,4 @@
-package org.brapi.useCaseChecker.model.useCases;
+package org.brapi.usecasechecker.model.useCases;
 
 import java.util.List;
 

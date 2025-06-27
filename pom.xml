@@ -6,7 +6,7 @@
 
     <groupId>com.github.plantbreeding</groupId>
     <artifactId>use-caseinator</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
 
     <distributionManagement>
         <repository>
@@ -71,7 +71,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.brapi.useCaseChecker.main.Main</mainClass>
+                                    <mainClass>org.brapi.usecasechecker.main.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

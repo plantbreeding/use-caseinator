@@ -1,4 +1,4 @@
-package org.brapi.useCaseChecker;
+package org.brapi.usecasechecker;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.brapi.useCaseChecker.exceptions.UseCaseCheckerException;
-import org.brapi.useCaseChecker.model.Call;
-import org.brapi.useCaseChecker.model.useCases.App;
-import org.brapi.useCaseChecker.model.useCases.ServiceRequired;
-import org.brapi.useCaseChecker.model.useCases.UseCase;
-import org.brapi.useCaseChecker.model.useCases.UseCases;
+import org.brapi.usecasechecker.exceptions.UseCaseCheckerException;
+import org.brapi.usecasechecker.model.Call;
+import org.brapi.usecasechecker.model.useCases.App;
+import org.brapi.usecasechecker.model.useCases.ServiceRequired;
+import org.brapi.usecasechecker.model.useCases.UseCase;
+import org.brapi.usecasechecker.model.useCases.UseCases;
 
 import java.io.IOException;
 import java.util.*;

@@ -1,11 +1,11 @@
-package org.brapi.useCaseChecker;
+package org.brapi.usecasechecker;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.brapi.useCaseChecker.exceptions.UseCaseAdditionException;
-import org.brapi.useCaseChecker.model.useCases.App;
-import org.brapi.useCaseChecker.model.useCases.UseCase;
-import org.brapi.useCaseChecker.model.useCases.UseCases;
+import org.brapi.usecasechecker.exceptions.UseCaseAdditionException;
+import org.brapi.usecasechecker.model.useCases.App;
+import org.brapi.usecasechecker.model.useCases.UseCase;
+import org.brapi.usecasechecker.model.useCases.UseCases;
 
 import java.io.IOException;
 import java.io.InputStream;
