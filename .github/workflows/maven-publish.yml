@@ -7,6 +7,11 @@ on:
   release:
     types: [created]
 
+
+permissions:
+  contents: write  # 👈 this is required to upload release assets
+  packages: write  # still needed for deploying to GitHub Packages
+
 jobs:
   build-and-publish:
 
