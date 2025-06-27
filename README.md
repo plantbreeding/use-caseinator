@@ -49,7 +49,10 @@ This url **must** be up-to-date with the implemented methods for the server you 
 }
 ```
 
-The program checks if the service exists, if the methods exist required for that service, and if the versions required by the use case are supported.
+The program checks if the service exists, if the methods exist required for that service, and
+if the versions required by the service are supported.
+
+It reviews all services required for each use case requested to check.
 
 ## How to use
 ### Executable jar
@@ -125,6 +128,35 @@ to get a full JSON export of the all the currently loaded apps and use cases, `e
 
 When you create an issue to add your use cases you should utilize this method to get the new JSON that should be placed into `src/main/resources/useCases.json` 
 
+In general, the expected schema of `useCases.json` that the `model` follows is:
+
+```
+{
+  "apps" : [
+    {
+      "appName" : "BrApp Name",
+      "useCases" : [
+        {
+          "useCaseName" : "Use Case",
+          "servicesRequired" : [
+            {
+              "serviceName" : "service",
+              "methodsRequired" : ["GET", "POST"],
+              "versionRequired" : "2.1"
+            },
+            ...
+          ],
+          ...
+        }
+      ]
+    },
+    ...
+  ]
+}
+```
+
+All fields are required in this schema.
+
 There is an example class, `LoadAdditionalUseCasesExample` that details the full usages of all of these features.
 
-Happy compliance testing! 
+Happy compliance testing!

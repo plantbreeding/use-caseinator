@@ -46,7 +46,7 @@ public class UseCaseChecker {
 
             response = httpClient.newCall(request).execute();
 
-            if (response.body() != null) {
+            if (response.body() != null && response.isSuccessful()) {
                 serverInfo = objectMapper.readTree(response.body().string());
             }
         } catch (IOException e) {
@@ -54,8 +54,8 @@ public class UseCaseChecker {
             throw new UseCaseCheckerException(e);
         }
 
-        if (serverInfo == null) {
-            return null;
+        if (serverInfo == null || serverInfo.isEmpty()) {
+            throw new UseCaseCheckerException(String.format("No serverinfo found with provided url [%s]", serverInfoUrl));
         }
 
         return objectMapper.convertValue(serverInfo.path("result").path("calls"),
