@@ -23,6 +23,9 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gpg.executable>gpg</gpg.executable>
+        <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+        <gpg.batch>true</gpg.batch>
     </properties>
 
     <dependencies>
