@@ -4,17 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.plantbreeding</groupId>
+    <groupId>org.brapi</groupId>
     <artifactId>use-caseinator</artifactId>
-    <version>1.0.9</version>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/plantbreeding/use-caseinator</url>
-        </repository>
-    </distributionManagement>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -78,7 +70,73 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <name>Brapi Use-Caseinator</name>
+    <description>A tool to check if Br-API compatible servers have implemented methods required for Br-App use cases.</description>
+    <url>https://github.com/plantbreeding/use-caseinator</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>jloux</id>
+            <name>Jason Loux</name>
+            <email>jloux.brapi@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/plantbreeding/use-caseinator</url>
+        <connection>scm:git:git://github.com/plantbreeding/use-caseinator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:plantbreeding/use-caseinator.git</developerConnection>
+    </scm>
 
 </project>
