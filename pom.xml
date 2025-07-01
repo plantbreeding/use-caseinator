@@ -8,6 +8,13 @@
     <artifactId>use-caseinator</artifactId>
     <version>1.0.0</version>
 
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <profiles>
         <profile>
             <id>release</id>
