@@ -16,8 +16,12 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
           server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
+          server-username: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          server-password: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+
+      - name: Debug settings.xml
+        run: cat ~/.m2/settings.xml
+
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
