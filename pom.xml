@@ -59,7 +59,6 @@
                 <version>0.8.0</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <publishingServerId>central</publishingServerId>
                     <publishingUsername>${env.MAVEN_CENTRAL_USERNAME}</publishingUsername>
                     <publishingPassword>${env.MAVEN_CENTRAL_PASSWORD}</publishingPassword>
                 </configuration>
