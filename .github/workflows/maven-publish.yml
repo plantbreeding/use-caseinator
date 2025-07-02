@@ -16,9 +16,6 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
-          server-id: central
-          server-username: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          server-password: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
 
       - name: Import GPG key
         run: |
