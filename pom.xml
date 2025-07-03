@@ -6,7 +6,7 @@
 
     <groupId>org.brapi</groupId>
     <artifactId>use-caseinator</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <build>
         <plugins>
@@ -59,6 +59,7 @@
                 <version>0.8.0</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <autoPublish>true</autoPublish>
                     <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>

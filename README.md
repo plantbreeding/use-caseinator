@@ -74,8 +74,15 @@ For this usage, try something like:
 This program has been loaded into Maven Central, you can grab it by adding the following dependency to your `pom.xml`:
 
 ```
-Example here
+        <dependency>
+            <groupId>org.brapi</groupId>
+            <artifactId>use-caseinator</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 ```
+
+Please check the [Maven Central Repository](https://central.sonatype.com/artifact/org.brapi/use-caseinator?smo=true) to see what the
+latest version and be sure to retrieve that.
 
 The library and `UseCaseChecker` is managed through the `UseCaseCheckerFactory` class.
 
