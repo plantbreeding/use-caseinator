@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UseCaseCheckerFactory {
 
@@ -74,4 +75,7 @@ public class UseCaseCheckerFactory {
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(loadedUseCases);
     }
 
+    public UseCases getLoadedApps() {
+        return loadedUseCases;
+    }
 }

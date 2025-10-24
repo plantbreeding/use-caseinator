@@ -77,7 +77,7 @@ This program has been loaded into Maven Central, you can grab it by adding the f
         <dependency>
             <groupId>org.brapi</groupId>
             <artifactId>use-caseinator</artifactId>
-            <version>1.0.1</version>
+            <version>[insertLatestVersion]</version>
         </dependency>
 ```
 
