@@ -8,6 +8,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.brapi.usecasechecker.exceptions.UseCaseCheckerException;
 import org.brapi.usecasechecker.model.Call;
+import org.brapi.usecasechecker.model.checked.CheckedService;
+import org.brapi.usecasechecker.model.checked.CheckedUseCase;
 import org.brapi.usecasechecker.model.useCases.App;
 import org.brapi.usecasechecker.model.useCases.ServiceRequired;
 import org.brapi.usecasechecker.model.useCases.UseCase;
@@ -63,7 +65,7 @@ public class UseCaseChecker {
                 });
     }
 
-    public boolean allUseCasesCompliant(String brAppName) throws UseCaseCheckerException {
+    public List<CheckedUseCase> allUseCasesCompliant(String brAppName) throws UseCaseCheckerException {
         List<Call> availableServiceCalls = getServerInfoCalls();
 
         Optional<App> app = loadedUseCases.getApps().stream()
@@ -74,18 +76,22 @@ public class UseCaseChecker {
             throw new UseCaseCheckerException(String.format("BrApp with name [%s] does not exist%n", brAppName));
         }
 
+        List<CheckedUseCase> results = new ArrayList<>();
+
         for (UseCase appUseCase : app.get().getUseCases()) {
             List<ServiceRequired> servicesRequired = appUseCase.getServicesRequired();
 
-            if (!isUseCaseValid(servicesRequired, availableServiceCalls)) {
-                return false;
-            }
+            List<CheckedService> checkedServicesForUseCase = isUseCaseValid(servicesRequired, availableServiceCalls);
+
+            boolean useCaseValid = checkedServicesForUseCase.stream().allMatch(CheckedService::isValid);
+
+            results.add(new CheckedUseCase(useCaseValid, checkedServicesForUseCase, appUseCase.getUseCaseName()));
         }
 
-        return true;
+        return results;
     }
 
-    public boolean isUseCaseCompliant(String brAppName, String useCaseName) throws UseCaseCheckerException {
+    public CheckedUseCase isUseCaseCompliant(String brAppName, String useCaseName) throws UseCaseCheckerException {
 
         List<Call> availableServiceCalls = getServerInfoCalls();
 
@@ -107,43 +113,65 @@ public class UseCaseChecker {
 
         List<ServiceRequired> servicesRequired = useCase.get().getServicesRequired();
 
-        return isUseCaseValid(servicesRequired, availableServiceCalls);
+        List<CheckedService> checkedServices = isUseCaseValid(servicesRequired, availableServiceCalls);
+
+        boolean validUseCase = checkedServices.stream().allMatch(CheckedService::isValid);
+
+        return new CheckedUseCase(validUseCase, checkedServices, useCaseName);
     }
 
-    private boolean isUseCaseValid(List<ServiceRequired> servicesRequired, List<Call> availableServiceCalls) {
+    private List<CheckedService> isUseCaseValid(List<ServiceRequired> servicesRequired, List<Call> availableServiceCalls) {
         Map<String, List<Call>> callsByService = availableServiceCalls.stream()
                 .collect(Collectors.groupingBy(Call::getService));
+
+        List<CheckedService> result = new ArrayList<>();
 
         for (ServiceRequired serviceRequired : servicesRequired) {
             List<Call> candidates = callsByService.get(serviceRequired.getServiceName());
 
             if (candidates == null  || candidates.isEmpty()) {
-                System.out.printf("Service [%s] not found in BrAPI compatible server with serverInfo endpoint: [%s]",
+                String message = String.format("Service [%s] not found in BrAPI compatible server with serverInfo endpoint: [%s]",
                         serviceRequired.getServiceName(),
-                        serverInfoUrl
-                        );
-                return false;
+                        serverInfoUrl);
+
+                result.add(new CheckedService(false, message, serviceRequired));
+                continue;
             }
 
             Call call = candidates.get(0);
 
             if (!call.getVersions().contains(serviceRequired.getVersionRequired())) {
-                System.out.printf("Service [%s] did not have a compatible version in BrAPI compatible server with serverInfo endpoint: [%s]",
+                String message = String.format("Service [%s] did not have compatible version [%s] in BrAPI compatible server with serverInfo endpoint: [%s]",
                         serviceRequired.getServiceName(),
-                        serverInfoUrl
-                );
-                return false;
+                        serviceRequired.getVersionRequired(),
+                        serverInfoUrl);
+
+                result.add(new CheckedService(false, message, serviceRequired));
+                continue;
             }
 
-            if (!call.getMethods().containsAll(serviceRequired.getMethodsRequired())) {
-                System.out.printf("Service [%s] did not have a compatible HTTP Verb in BrAPI compatible server with serverInfo endpoint: [%s]",
+            List<String> methodsNotFound
+                    = serviceRequired.getMethodsRequired()
+                    .stream()
+                    .filter(m -> !call.getMethods().contains(m))
+                    .collect(Collectors.toList());
+
+            if (!methodsNotFound.isEmpty()) {
+                String message = String.format("Service [%s] did not have a compatible HTTP Verb/s [%s] in BrAPI compatible server with serverInfo endpoint: [%s]",
                         serviceRequired.getServiceName(),
-                        serverInfoUrl
-                );
-                return false;
+                        methodsNotFound,
+                        serverInfoUrl);
+                result.add(new CheckedService(false, message, serviceRequired));
+                continue;
             }
+
+            String message = String.format(("Service [%s] implemented and verified via server info with HTTP verb/s [%s] and version [%s]"),
+                    serviceRequired.getServiceName(),
+                    serviceRequired.getMethodsRequired(),
+                    serviceRequired.getVersionRequired());
+            result.add(new CheckedService(true, message, serviceRequired));
         }
 
-        return true;
+        return result;
     }
 }

@@ -10,7 +10,7 @@
 
     <build>
         <plugins>
-            <!-- GPG signing plugin -->
+            <!-- GPG signing plugin, uncomment for local testing unless you have GPG key -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -25,7 +25,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!-- Source jar -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
@@ -36,6 +35,29 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- For local jar testing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.brapi.usecasechecker.main.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -1,10 +1,18 @@
 package org.brapi.usecasechecker.main;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.brapi.usecasechecker.UseCaseChecker;
 import org.brapi.usecasechecker.UseCaseCheckerFactory;
 import org.brapi.usecasechecker.exceptions.UseCaseCheckerException;
 
+import java.io.Writer;
+
 public class Main {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     public static void main(String[] args) {
 
         String baseUrl = null;
@@ -46,12 +54,15 @@ public class Main {
         UseCaseChecker useCaseChecker = UseCaseCheckerFactory.getInstance().getUseCaseChecker(baseUrl);
 
         try {
+
+            ObjectWriter writer = objectMapper.writerWithDefaultPrettyPrinter();
+
             if (all) {
-                System.out.println(useCaseChecker.allUseCasesCompliant(brAppName));
+                System.out.println(writer.writeValueAsString(useCaseChecker.allUseCasesCompliant(brAppName)));
             } else {
-                System.out.println(useCaseChecker.isUseCaseCompliant(brAppName, useCaseName));
+                System.out.println(writer.writeValueAsString(useCaseChecker.isUseCaseCompliant(brAppName, useCaseName)));
             }
-        } catch (UseCaseCheckerException e) {
+        } catch (UseCaseCheckerException | JsonProcessingException e) {
             System.out.println(e.getMessage());
         }
     }
