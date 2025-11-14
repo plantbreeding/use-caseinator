@@ -4,24 +4,42 @@
       "useCaseName" : "Import Trials",
       "servicesRequired" : [ {
         "serviceName" : "trials",
-        "methodsRequired" : [ "GET", "POST" ],
+        "methodRequired" : "GET",
+        "versionRequired" : "2.1"
+      }, {
+        "serviceName" : "trials",
+        "methodRequired" : "POST",
         "versionRequired" : "2.1"
       }, {
         "serviceName" : "studies",
-        "methodsRequired" : [ "GET", "POST" ],
+        "methodRequired" : "GET",
         "versionRequired" : "2.1"
-      } ]
+      }, {
+        "serviceName" : "studies",
+        "methodRequired" : "POST",
+        "versionRequired" : "2.1"
+      }
+      ]
     }, {
       "useCaseName" : "Import Germplasm",
       "servicesRequired" : [ {
         "serviceName" : "pedigree",
-        "methodsRequired" : [ "GET", "POST" ],
+        "methodRequired" : "GET",
+        "versionRequired" : "2.1"
+      }, {
+        "serviceName" : "pedigree",
+        "methodRequired" : "POST",
         "versionRequired" : "2.1"
       }, {
         "serviceName" : "germplasm",
-        "methodsRequired" : [ "GET", "POST" ],
+        "methodRequired" : "GET",
         "versionRequired" : "2.1"
-      } ]
+      },
+         {
+          "serviceName" : "germplasm",
+          "methodRequired" : "POST",
+          "versionRequired" : "2.1"
+        }]
     } ],
     "appName" : "BrApp Example Name"
   }, {
@@ -29,13 +47,23 @@
       "useCaseName" : "Import Observations",
       "servicesRequired" : [ {
         "serviceName" : "observations",
-        "methodsRequired" : [ "GET", "POST" ],
+        "methodRequired" : "GET",
         "versionRequired" : "2.1"
       }, {
+          "serviceName" : "observations",
+          "methodRequired" : "POST",
+          "versionRequired" : "2.1"
+        },
+         {
         "serviceName" : "observationunits",
-        "methodsRequired" : [ "GET", "POST" ],
+        "methodRequired" : "GET",
         "versionRequired" : "2.1"
-      } ]
+      },
+          {
+            "serviceName" : "observationunits",
+            "methodRequired" : "POST",
+            "versionRequired" : "2.1"
+          }]
     } ],
     "appName" : "BrApp Example 2 Name"
   } ]

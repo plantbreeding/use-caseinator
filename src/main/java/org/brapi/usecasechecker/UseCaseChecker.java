@@ -150,16 +150,10 @@ public class UseCaseChecker {
                 continue;
             }
 
-            List<String> methodsNotFound
-                    = serviceRequired.getMethodsRequired()
-                    .stream()
-                    .filter(m -> !call.getMethods().contains(m))
-                    .collect(Collectors.toList());
-
-            if (!methodsNotFound.isEmpty()) {
-                String message = String.format("Service [%s] did not have a compatible HTTP Verb/s [%s] in BrAPI compatible server with serverInfo endpoint: [%s]",
+            if (!call.getMethods().contains(serviceRequired.getMethodRequired())) {
+                String message = String.format("Service [%s] did not have a compatible HTTP Verb [%s] in BrAPI compatible server with serverInfo endpoint: [%s]",
                         serviceRequired.getServiceName(),
-                        methodsNotFound,
+                        serviceRequired.getMethodRequired(),
                         serverInfoUrl);
                 result.add(new CheckedService(false, message, serviceRequired));
                 continue;
@@ -167,7 +161,7 @@ public class UseCaseChecker {
 
             String message = String.format(("Service [%s] implemented and verified via server info with HTTP verb/s [%s] and version [%s]"),
                     serviceRequired.getServiceName(),
-                    serviceRequired.getMethodsRequired(),
+                    serviceRequired.getMethodRequired(),
                     serviceRequired.getVersionRequired());
             result.add(new CheckedService(true, message, serviceRequired));
         }

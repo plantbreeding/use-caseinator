@@ -6,18 +6,18 @@ import java.util.List;
 
 public class ServiceRequired {
 
+    private String serviceName;
+    private String methodRequired;
+    private String versionRequired;
+
     public ServiceRequired() {
     }
 
     private ServiceRequired(Builder builder) {
         this.serviceName = builder.serviceName;
-        this.methodsRequired = builder.methodsRequired;
+        this.methodRequired = builder.methodRequired;
         this.versionRequired = builder.versionRequired;
     }
-
-    private String serviceName;
-    private List<String> methodsRequired;
-    private String versionRequired;
 
     public String getServiceName() {
         return serviceName;
@@ -27,12 +27,12 @@ public class ServiceRequired {
         this.serviceName = serviceName;
     }
 
-    public List<String> getMethodsRequired() {
-        return methodsRequired;
+    public String getMethodRequired() {
+        return methodRequired;
     }
 
-    public void setMethodsRequired(List<String> methodsRequired) {
-        this.methodsRequired = methodsRequired;
+    public void setMethodRequired(String methodRequired) {
+        this.methodRequired = methodRequired;
     }
 
     public String getVersionRequired() {
@@ -45,7 +45,7 @@ public class ServiceRequired {
 
     public static class Builder {
         private String serviceName;
-        private List<String> methodsRequired;
+        private String methodRequired;
         private String versionRequired;
 
         public Builder serviceName(String serviceName) {
@@ -53,8 +53,8 @@ public class ServiceRequired {
             return this;
         }
 
-        public Builder methodsRequired(List<String> methodsRequired) {
-            this.methodsRequired = methodsRequired;
+        public Builder methodRequired(String methodRequired) {
+            this.methodRequired = methodRequired;
             return this;
         }
 
@@ -73,7 +73,7 @@ public class ServiceRequired {
                 throw new UseCaseBuilderException("No serviceName provided to builder.");
             }
 
-            if (this.methodsRequired == null || this.methodsRequired.isEmpty()) {
+            if (this.methodRequired == null || this.methodRequired.isEmpty()) {
                 throw new UseCaseBuilderException("No methodsRequired provided to builder.");
             }
 

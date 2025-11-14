@@ -15,12 +15,12 @@ class LoadAdditionalUseCasesExample {
 
         List<ServiceRequired> servicesRequired = Arrays.asList(
                 new ServiceRequired.Builder()
-                        .methodsRequired(Arrays.asList("GET"))
+                        .methodRequired("GET")
                         .serviceName("variables")
                         .versionRequired("2.1")
                         .build(),
                 new ServiceRequired.Builder()
-                        .methodsRequired(Arrays.asList("GET"))
+                        .methodRequired("GET")
                         .serviceName("observations")
                         .versionRequired("2.1")
                         .build()
