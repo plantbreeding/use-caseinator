@@ -2,8 +2,6 @@ package org.brapi.usecasechecker.model.useCases;
 
 import org.brapi.usecasechecker.exceptions.UseCaseBuilderException;
 
-import java.util.List;
-
 public class ServiceRequired {
 
     private String serviceName;

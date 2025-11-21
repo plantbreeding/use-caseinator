@@ -1,70 +1,142 @@
 {
-  "apps" : [ {
-    "useCases" : [ {
-      "useCaseName" : "Import Trials",
-      "servicesRequired" : [ {
-        "serviceName" : "trials",
-        "methodRequired" : "GET",
-        "versionRequired" : "2.1"
-      }, {
-        "serviceName" : "trials",
-        "methodRequired" : "POST",
-        "versionRequired" : "2.1"
-      }, {
-        "serviceName" : "studies",
-        "methodRequired" : "GET",
-        "versionRequired" : "2.1"
-      }, {
-        "serviceName" : "studies",
-        "methodRequired" : "POST",
-        "versionRequired" : "2.1"
-      }
-      ]
-    }, {
-      "useCaseName" : "Import Germplasm",
-      "servicesRequired" : [ {
-        "serviceName" : "pedigree",
-        "methodRequired" : "GET",
-        "versionRequired" : "2.1"
-      }, {
-        "serviceName" : "pedigree",
-        "methodRequired" : "POST",
-        "versionRequired" : "2.1"
-      }, {
-        "serviceName" : "germplasm",
-        "methodRequired" : "GET",
-        "versionRequired" : "2.1"
-      },
-         {
-          "serviceName" : "germplasm",
-          "methodRequired" : "POST",
-          "versionRequired" : "2.1"
-        }]
-    } ],
-    "appName" : "BrApp Example Name"
-  }, {
-    "useCases" : [ {
-      "useCaseName" : "Import Observations",
-      "servicesRequired" : [ {
-        "serviceName" : "observations",
-        "methodRequired" : "GET",
-        "versionRequired" : "2.1"
-      }, {
-          "serviceName" : "observations",
-          "methodRequired" : "POST",
-          "versionRequired" : "2.1"
+  "apps": [
+    {
+      "appName": "Field Book",
+      "useCases": [
+        {
+          "useCaseName": "Import Field",
+          "description": "Allows users to browse and import breeding studies, trials, and programs from a BrAPI-compliant server into the app as 'Fields'. This involves fetching lists of programs, trials, and studies, often in a filtered sequence.",
+          "entitiesRequired" : [
+            {
+              "entityName": "Studies",
+              "servicesRequired": [
+                {
+                  "serviceName": "studies",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                }
+              ]
+            },
+            {
+              "entityName": "Trials",
+              "servicesRequired": [
+                {
+                  "serviceName": "trials",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                }
+              ]
+            },
+            {
+              "entityName": "Germplasm",
+              "servicesRequired": [
+                {
+                  "serviceName": "germplasm",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                }
+              ]
+            },
+            {
+              "entityName": "Observation Units",
+              "servicesRequired": [
+                {
+                  "serviceName": "observationunits",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                },
+                {
+                  "serviceName": "observationlevels",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                }
+              ]
+            }
+          ]
         },
-         {
-        "serviceName" : "observationunits",
-        "methodRequired" : "GET",
-        "versionRequired" : "2.1"
-      },
-          {
-            "serviceName" : "observationunits",
-            "methodRequired" : "POST",
-            "versionRequired" : "2.1"
-          }]
-    } ],
-    "appName" : "BrApp Example 2 Name"
-  } ]
+        {
+          "useCaseName": "Import Observation Variables (Traits)",
+          "description": "Imports traits from the BrAPI server which are mapped to Field Book's internal trait definitions. This enables consistent data collection.",
+          "entitiesRequired": [
+            {
+              "entityName": "Variables",
+              "servicesRequired": [
+                {
+                  "serviceName": "variables",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                }
+              ]
+            },
+            {
+              "entityName": "Studies",
+              "servicesRequired": [
+                {
+                  "serviceName": "studies",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                }
+              ]
+            },
+            {
+              "entityName": "Trials",
+              "servicesRequired": [
+                {
+                  "serviceName": "trials",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "useCaseName": "Two-Way Sync of Observations and Images",
+          "description": "Performs a two-way synchronization for a specific study. It downloads observations from the server and uploads new/edited local observations and images. It also handles data conflicts.",
+          "entitiesRequired": [
+            {
+              "entityName": "Observations",
+              "servicesRequired": [
+                {
+                  "serviceName": "observations",
+                  "methodRequired": "GET",
+                  "versionRequired": "2.1"
+                },
+                {
+                  "serviceName": "observations",
+                  "methodRequired": "POST",
+                  "versionRequired": "2.1"
+                },
+                {
+                  "serviceName": "observations",
+                  "methodRequired": "PUT",
+                  "versionRequired": "2.1"
+                }
+              ]
+            },
+            {
+              "entityName": "Images",
+              "servicesRequired": [
+                {
+                  "serviceName": "images",
+                  "methodRequired": "POST",
+                  "versionRequired": "2.1"
+                },
+                {
+                  "serviceName": "images/{imageDbId}",
+                  "methodRequired": "PUT",
+                  "versionRequired": "2.1"
+                },
+                {
+                  "serviceName": "images/{imageDbId}/imagecontent",
+                  "methodRequired": "PUT",
+                  "versionRequired": "2.1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

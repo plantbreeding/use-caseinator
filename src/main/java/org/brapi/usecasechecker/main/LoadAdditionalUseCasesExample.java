@@ -2,6 +2,7 @@ package org.brapi.usecasechecker.main;
 
 import org.brapi.usecasechecker.UseCaseCheckerFactory;
 import org.brapi.usecasechecker.model.useCases.App;
+import org.brapi.usecasechecker.model.useCases.EntityRequired;
 import org.brapi.usecasechecker.model.useCases.ServiceRequired;
 import org.brapi.usecasechecker.model.useCases.UseCase;
 
@@ -13,22 +14,46 @@ class LoadAdditionalUseCasesExample {
 
         UseCaseCheckerFactory useCaseCheckerFactory = UseCaseCheckerFactory.getInstance();
 
-        List<ServiceRequired> servicesRequired = Arrays.asList(
+        List<ServiceRequired> servicesForVariables = Arrays.asList(
                 new ServiceRequired.Builder()
                         .methodRequired("GET")
                         .serviceName("variables")
                         .versionRequired("2.1")
                         .build(),
                 new ServiceRequired.Builder()
+                        .methodRequired("POST")
+                        .serviceName("variables")
+                        .versionRequired("2.1")
+                        .build()
+        );
+
+        List<ServiceRequired> servicesForObservations = Arrays.asList(
+                new ServiceRequired.Builder()
                         .methodRequired("GET")
+                        .serviceName("observations")
+                        .versionRequired("2.1")
+                        .build(),
+                new ServiceRequired.Builder()
+                        .methodRequired("POST")
                         .serviceName("observations")
                         .versionRequired("2.1")
                         .build()
         );
 
+        List<EntityRequired> entitiesRequired = Arrays.asList(
+                new EntityRequired.Builder()
+                        .entityName("Variables")
+                        .servicesRequired(servicesForVariables)
+                        .build(),
+                new EntityRequired.Builder()
+                        .entityName("Observations")
+                        .servicesRequired(servicesForObservations)
+                        .build()
+        );
+
         List<UseCase> useCases = Arrays.asList(new UseCase.Builder()
                 .useCaseName("Sync Observations")
-                .servicesRequired(servicesRequired)
+                .entitiesRequired(entitiesRequired)
                 .builder());
 
         App app = new App.Builder()

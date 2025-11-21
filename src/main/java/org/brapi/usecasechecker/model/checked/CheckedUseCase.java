@@ -4,12 +4,12 @@ import java.util.List;
 
 public class CheckedUseCase {
     private boolean isValid = false;
-    private List<CheckedService> checkedServices;
+    private List<CheckedEntity> checkedEntities;
     private String useCaseName;
 
-    public CheckedUseCase(boolean isValid, List<CheckedService> checkedServices, String useCaseName) {
+    public CheckedUseCase(boolean isValid, List<CheckedEntity> checkedEntities, String useCaseName) {
         this.isValid = isValid;
-        this.checkedServices = checkedServices;
+        this.checkedEntities = checkedEntities;
         this.useCaseName = useCaseName;
     }
 
@@ -21,12 +21,12 @@ public class CheckedUseCase {
         isValid = valid;
     }
 
-    public List<CheckedService> getCheckedServices() {
-        return checkedServices;
+    public List<CheckedEntity> getCheckedEntities() {
+        return checkedEntities;
     }
 
-    public void setCheckedServices(List<CheckedService> checkedServices) {
-        this.checkedServices = checkedServices;
+    public void setCheckedEntities(List<CheckedEntity> checkedEntities) {
+        this.checkedEntities = checkedEntities;
     }
 
     public String getUseCaseName() {

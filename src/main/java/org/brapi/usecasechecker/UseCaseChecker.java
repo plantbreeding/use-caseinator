@@ -8,12 +8,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.brapi.usecasechecker.exceptions.UseCaseCheckerException;
 import org.brapi.usecasechecker.model.Call;
+import org.brapi.usecasechecker.model.checked.CheckedEntity;
 import org.brapi.usecasechecker.model.checked.CheckedService;
 import org.brapi.usecasechecker.model.checked.CheckedUseCase;
-import org.brapi.usecasechecker.model.useCases.App;
-import org.brapi.usecasechecker.model.useCases.ServiceRequired;
-import org.brapi.usecasechecker.model.useCases.UseCase;
-import org.brapi.usecasechecker.model.useCases.UseCases;
+import org.brapi.usecasechecker.model.useCases.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -28,8 +26,8 @@ public class UseCaseChecker {
     private final static String SERVER_INFO_PATH = "/serverinfo";
 
     UseCaseChecker(String serverBaseUrl,
-                          UseCases loadedUseCases,
-                          ObjectMapper objectMapper) {
+                   UseCases loadedUseCases,
+                   ObjectMapper objectMapper) {
         httpClient = new OkHttpClient();
         this.objectMapper = objectMapper;
         serverInfoUrl = serverBaseUrl + SERVER_INFO_PATH;
@@ -79,13 +77,14 @@ public class UseCaseChecker {
         List<CheckedUseCase> results = new ArrayList<>();
 
         for (UseCase appUseCase : app.get().getUseCases()) {
-            List<ServiceRequired> servicesRequired = appUseCase.getServicesRequired();
 
-            List<CheckedService> checkedServicesForUseCase = isUseCaseValid(servicesRequired, availableServiceCalls);
+            List<EntityRequired> entitiesRequired = appUseCase.getEntitiesRequired();
 
-            boolean useCaseValid = checkedServicesForUseCase.stream().allMatch(CheckedService::isValid);
+            List<CheckedEntity> checkedEntitiesForUseCase = isUseCaseValid(entitiesRequired, availableServiceCalls);
 
-            results.add(new CheckedUseCase(useCaseValid, checkedServicesForUseCase, appUseCase.getUseCaseName()));
+            boolean useCaseValid = checkedEntitiesForUseCase.stream().allMatch(CheckedEntity::isValid);
+
+            results.add(new CheckedUseCase(useCaseValid, checkedEntitiesForUseCase, appUseCase.getUseCaseName()));
         }
 
         return results;
@@ -111,61 +110,70 @@ public class UseCaseChecker {
             throw new UseCaseCheckerException(String.format("Use case with name [%s] does not exist for BrApp [%s]%n", useCaseName, brAppName));
         }
 
-        List<ServiceRequired> servicesRequired = useCase.get().getServicesRequired();
+        List<EntityRequired> servicesRequired = useCase.get().getEntitiesRequired();
 
-        List<CheckedService> checkedServices = isUseCaseValid(servicesRequired, availableServiceCalls);
+        List<CheckedEntity> checkedEntities = isUseCaseValid(servicesRequired, availableServiceCalls);
 
-        boolean validUseCase = checkedServices.stream().allMatch(CheckedService::isValid);
+        boolean validUseCase = checkedEntities.stream().allMatch(CheckedEntity::isValid);
 
-        return new CheckedUseCase(validUseCase, checkedServices, useCaseName);
+        return new CheckedUseCase(validUseCase, checkedEntities, useCaseName);
     }
 
-    private List<CheckedService> isUseCaseValid(List<ServiceRequired> servicesRequired, List<Call> availableServiceCalls) {
+    private List<CheckedEntity> isUseCaseValid(List<EntityRequired> entitiesRequired, List<Call> availableServiceCalls) {
         Map<String, List<Call>> callsByService = availableServiceCalls.stream()
                 .collect(Collectors.groupingBy(Call::getService));
 
-        List<CheckedService> result = new ArrayList<>();
+        List<CheckedEntity> result = new ArrayList<>();
 
-        for (ServiceRequired serviceRequired : servicesRequired) {
-            List<Call> candidates = callsByService.get(serviceRequired.getServiceName());
+        for (EntityRequired entityRequired : entitiesRequired) {
 
-            if (candidates == null  || candidates.isEmpty()) {
-                String message = String.format("Service [%s] not found in BrAPI compatible server with serverInfo endpoint: [%s]",
+            List<CheckedService> checkedServices = new ArrayList<>();
+
+            for (ServiceRequired serviceRequired : entityRequired.getServicesRequired()) {
+                List<Call> candidates = callsByService.get(serviceRequired.getServiceName());
+
+                if (candidates == null || candidates.isEmpty()) {
+                    String message = String.format("Service %s not found in BrAPI compatible server with serverInfo endpoint: [%s]",
+                            serviceRequired.getServiceName(),
+                            serverInfoUrl);
+
+                    checkedServices.add(new CheckedService(false, message, serviceRequired));
+                    continue;
+                }
+
+                Call call = candidates.get(0);
+
+                if (!call.getVersions().contains(serviceRequired.getVersionRequired())) {
+                    String message = String.format("Service %s did not have compatible version %s in BrAPI compatible server with serverInfo endpoint: %s",
+                            serviceRequired.getServiceName(),
+                            serviceRequired.getVersionRequired(),
+                            serverInfoUrl);
+
+                    checkedServices.add(new CheckedService(false, message, serviceRequired));
+                    continue;
+                }
+
+                if (!call.getMethods().contains(serviceRequired.getMethodRequired())) {
+                    String message = String.format("Service %s did not have a compatible HTTP Verb %s in BrAPI compatible server with serverInfo endpoint: %s",
+                            serviceRequired.getServiceName(),
+                            serviceRequired.getMethodRequired(),
+                            serverInfoUrl);
+                    checkedServices.add(new CheckedService(false, message, serviceRequired));
+                    continue;
+                }
+
+                String message = String.format(("Service %s implemented and verified via server info endpoint %s with HTTP verb %s and version %s"),
                         serviceRequired.getServiceName(),
-                        serverInfoUrl);
-
-                result.add(new CheckedService(false, message, serviceRequired));
-                continue;
-            }
-
-            Call call = candidates.get(0);
-
-            if (!call.getVersions().contains(serviceRequired.getVersionRequired())) {
-                String message = String.format("Service [%s] did not have compatible version [%s] in BrAPI compatible server with serverInfo endpoint: [%s]",
-                        serviceRequired.getServiceName(),
-                        serviceRequired.getVersionRequired(),
-                        serverInfoUrl);
-
-                result.add(new CheckedService(false, message, serviceRequired));
-                continue;
-            }
-
-            if (!call.getMethods().contains(serviceRequired.getMethodRequired())) {
-                String message = String.format("Service [%s] did not have a compatible HTTP Verb [%s] in BrAPI compatible server with serverInfo endpoint: [%s]",
-                        serviceRequired.getServiceName(),
+                        serverInfoUrl,
                         serviceRequired.getMethodRequired(),
-                        serverInfoUrl);
-                result.add(new CheckedService(false, message, serviceRequired));
-                continue;
+                        serviceRequired.getVersionRequired());
+                checkedServices.add(new CheckedService(true, message, serviceRequired));
             }
 
-            String message = String.format(("Service [%s] implemented and verified via server info with HTTP verb/s [%s] and version [%s]"),
-                    serviceRequired.getServiceName(),
-                    serviceRequired.getMethodRequired(),
-                    serviceRequired.getVersionRequired());
-            result.add(new CheckedService(true, message, serviceRequired));
-        }
+            boolean allServicesForEntityValid = checkedServices.stream().allMatch(CheckedService::isValid);
 
+            result.add(new CheckedEntity(entityRequired.getEntityName(), checkedServices, allServicesForEntityValid));
+        }
         return result;
     }
 }

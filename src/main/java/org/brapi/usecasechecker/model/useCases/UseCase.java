@@ -12,11 +12,13 @@ public class UseCase {
 
     private UseCase(Builder builder) {
         this.useCaseName = builder.useCaseName;
-        this.servicesRequired = builder.servicesRequired;
+        this.entitiesRequired = builder.entitiesRequired;
     }
 
     private String useCaseName;
-    private List<ServiceRequired> servicesRequired;
+    private List<EntityRequired> entitiesRequired;
+    // Not required
+    private String description;
 
     public String getUseCaseName() {
         return useCaseName;
@@ -26,25 +28,39 @@ public class UseCase {
         this.useCaseName = useCaseName;
     }
 
-    public List<ServiceRequired> getServicesRequired() {
-        return servicesRequired;
+    public List<EntityRequired> getEntitiesRequired() {
+        return entitiesRequired;
     }
 
-    public void setServicesRequired(List<ServiceRequired> servicesRequired) {
-        this.servicesRequired = servicesRequired;
+    public void setEntitiesRequired(List<EntityRequired> entitiesRequired) {
+        this.entitiesRequired = entitiesRequired;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public static class Builder {
         private String useCaseName;
-        private List<ServiceRequired> servicesRequired;
+        private List<EntityRequired> entitiesRequired;
+        private String description;
 
         public Builder useCaseName(String useCaseName) {
             this.useCaseName = useCaseName;
             return this;
         }
 
-        public Builder servicesRequired(List<ServiceRequired> servicesRequired) {
-            this.servicesRequired = servicesRequired;
+        public Builder entitiesRequired(List<EntityRequired> entitiesRequired) {
+            this.entitiesRequired = entitiesRequired;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
             return this;
         }
 
@@ -54,7 +70,7 @@ public class UseCase {
                 throw new UseCaseBuilderException("No useCaseName provided to builder.");
             }
 
-            if (this.servicesRequired == null || this.servicesRequired.isEmpty()) {
+            if (this.entitiesRequired == null || this.entitiesRequired.isEmpty()) {
                 throw new UseCaseBuilderException("No servicesRequired provided to builder.");
             }
 

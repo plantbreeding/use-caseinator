@@ -145,15 +145,25 @@ In general, the expected schema of `useCases.json` that the `model` follows is:
       "useCases" : [
         {
           "useCaseName" : "Use Case",
-          "servicesRequired" : [
+          "description" : "A use case for this app", -- Not required
+          "entitiesRequired : [
             {
-              "serviceName" : "service",
-              "methodsRequired" : ["GET", "POST"],
-              "versionRequired" : "2.1"
+              "entityname : Trials
+              "servicesRequired" : [
+                {
+                  "serviceName" : "trials",
+                  "methodRequired" : "GET",
+                  "versionRequired" : "2.1"
+                },
+                {
+                  "serviceName" : "trials",
+                  "methodRequired" : "POST",
+                  "versionRequired" : "2.1"
+                },
+              ],
             },
             ...
-          ],
-          ...
+          ]
         }
       ]
     },
@@ -162,7 +172,7 @@ In general, the expected schema of `useCases.json` that the `model` follows is:
 }
 ```
 
-All fields are required in this schema.
+All fields are required in this schema unless otherwise noted.
 
 There is an example class, `LoadAdditionalUseCasesExample` that details the full usages of all of these features.
 
