@@ -58,4 +58,4 @@ jobs:
         with:
           files: target/use-caseinator-*.jar
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
