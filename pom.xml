@@ -10,21 +10,6 @@
 
     <build>
         <plugins>
-            <!-- GPG signing plugin, uncomment for local testing unless you have GPG key -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Source jar -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
